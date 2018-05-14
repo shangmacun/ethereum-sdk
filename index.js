@@ -8,6 +8,7 @@ module.exports = {
         contracts: {}
     },
     invoke: async function (contract, method, params, sender) {
+
         try {
             // Contract information.
             var _contract = this.config.contracts[contract];
@@ -48,13 +49,22 @@ module.exports = {
              * call
              */
             if (_method.constant) {
-                await this.web3.eth.call({from: sender, to: _contract.address, data: data}).then(function (data) {
+                var _web3 = this.web3;
+                var _result;
+                var result = {};
+                await _web3.eth.call({from: sender, to: _contract.address, data: data}).then(function (data) {
                     var returnType = [];
                     for (var i in _method.outputs) {
                         returnType.push(_method.outputs[i].type);
                     }
-                    return web3.eth.abi.decodeParameters(returnType, data);
+                    _result = _web3.eth.abi.decodeParameters(returnType, data);
                 });
+                var _length = _result.__length__;
+                for (var i = 0; i < _length; i++) {
+                    result[i] = _result[i];
+                }
+                result.length = _length;
+                return result;
             }
             /**
              * send
