@@ -41,21 +41,37 @@ ethereum contracts config.
 
 ## Using.
 
+### contract
 invoke method.
 ```
 /**
  * @param contract : contract name[string].
  * @param method : contract method name[string].
- * @param contract : method params [array].
- * @param contract : contract method caller[string],The sender is public key when the method type is called;The sender is private key when the method type is send.
+ * @param params : method params [array].
+ * @param value : value.
+ * @param gasLimit : gasLimit.
+ * @param id : id.
+ * @param sender : contract method caller[string],The sender is public key when the method type is called;The sender is private key when the method type is send.
  */
-invoke: async function (contract, method, params, sender)
+invoke: async function ({
+    contract: 'Token',
+    method: 'transferFrom',
+    params: ["0xc66cd3deec506713d653681c7663f2c4fe96fb3f", "0x7ebef78f23fe5cac4d5c5d7ad76008129fa5bfd8", 5],
+    gasLimit: 60000,
+    value: 0,
+    sender: '0xec8eab91f6dc1ddb8c9d25f03f4d7db88fa34ccc8c79abc0a15a7959da9b8a85',
+    id: 10002
+})
 ```
 
 call contract.
 ```
 // call Token [name]
-client.invoke('Token','name',[],"0xc66cd3deec506713d653681c7663f2c4fe96fb3f").then(function(data){
+client.invoke({
+    contract: 'Token',
+    method: 'name',
+    sender: '0xc66cd3deec506713d653681c7663f2c4fe96fb3f'
+}).then(function (data) {
     console.log(data);
 });
 ```
@@ -63,9 +79,59 @@ client.invoke('Token','name',[],"0xc66cd3deec506713d653681c7663f2c4fe96fb3f").th
 send contract.
 ```
 // send Token [approve]
-client.invoke('Token', 'approve', ["0x2fda776c716588724765f60267f1a6614c4da89d", 1000], "605297a0025b7b6bff5b7d219e78cd4f7c4dce928e86069d64c99a47547aa1e9").then(function (data) {
+client.invoke({
+    contract: 'Token',
+    method: 'approve',
+    params:["0x7ebef78f23fe5cac4d5c5d7ad76008129fa5bfd8",999],
+    gasLimit: 46000,
+    sender: '605297a0025b7b6bff5b7d219e78cd4f7c4dce928e86069d64c99a47547aa1e9'
+}).then(function (data) {
     console.log(data);
-    // web3 client
-    client.web3.eth.getTransactionReceipt(data).then(console.log);
 });
+```
+
+### transfer
+
+transfer method
+```
+/**
+ * @param to : to account.
+ * @param value : value[wei].
+ * @param gasLimit : gasLimit.
+ * @param id : id.
+ * @param sender : contract method caller[string],The sender is public key when the method type is called;The sender is private key when the method type is send.
+ */
+transfer: async function ({
+    to: "0x7ebef78f23fe5cac4d5c5d7ad76008129fa5bfd8",
+    value: 1,
+    sender: '0x605297a0025b7b6bff5b7d219e78cd4f7c4dce928e86069d64c99a47547aa1e9',
+    gasLimit: 60000,
+    id: 'transfer001'
+})
+```
+
+transfer 1 wei
+```
+client.transfer({
+    to: "0x7ebef78f23fe5cac4d5c5d7ad76008129fa5bfd8",
+    value: 1,
+    sender: '0x605297a0025b7b6bff5b7d219e78cd4f7c4dce928e86069d64c99a47547aa1e9',
+    gasLimit: 60000,
+    id: 'transfer001'
+}).then(function (data) {
+    console.log(data);
+});
+```
+### web3
+
+You must initialize before use.
+```
+client.init();
+or
+client.reset();
+```
+
+gasPrice.
+```
+var gasPrice =  client.web3.eth.getGasPrice();
 ```

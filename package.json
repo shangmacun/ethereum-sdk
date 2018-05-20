@@ -1,16 +1,22 @@
 {
-  "name": "ethereum-contract-sdk",
+  "name": "ethereum-sdk",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Init.",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahuaibo/ethereum-sdk.git"
+  },
   "author": "mahuaibo",
   "license": "ISC",
-  "dependencies": {
-    "npm": "^6.0.1",
-    "to": "^0.2.9",
-    "update": "^0.7.4"
-  }
+  "bugs": {
+    "url": "https://github.com/mahuaibo/ethereum-sdk/issues"
+  },
+  "homepage": "https://github.com/mahuaibo/ethereum-sdk#readme"
 }
