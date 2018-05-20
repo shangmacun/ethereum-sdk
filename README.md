@@ -4,7 +4,7 @@
 
 ```
 const client = require('/index');
-client.config.serverURL = "ws://47.254.32.219:18548";
+client.config.serverURL = "https://rinkeby.infura.io/B4rowWld8aRhqdqUUcKF";
 client.config.contracts = require('../conf/contracts');
 ```
 
